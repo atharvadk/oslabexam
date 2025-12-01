@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "Enter a string: "
+read str
+
+# Reverse the string
+rev_str=$(echo "$str" | rev)
+
+# Compare original and reversed
+if [ "$str" = "$rev_str" ]; then
+    echo "The string '$str' is a palindrome."
+else
+    echo "The string '$str' is NOT a palindrome."
+fi
