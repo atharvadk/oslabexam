@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <stdint.h>
 
 // Shared data (critical resource)
 int shared_data = 0;
@@ -17,7 +18,7 @@ pthread_mutex_t readcount_mutex;   // protects readcount
 pthread_mutex_t resource_mutex;    // gives exclusive access to writers OR first/last reader
 
 void *reader(void *arg) {
-    int id = (int)(long)arg;
+    int id = (int)(intptr_t)arg;
 
     while (1) {
         // Entry section for reader
@@ -50,7 +51,7 @@ void *reader(void *arg) {
 }
 
 void *writer(void *arg) {
-    int id = (int)(long)arg;
+    int id = (int)(intptr_t)arg;
 
     while (1) {
         // Entry section for writer
@@ -85,7 +86,7 @@ int main() {
 
     // Create reader threads
     for (i = 0; i < NUM_READERS; i++) {
-        if (pthread_create(&readers[i], NULL, reader, (void *)(long)(i + 1)) != 0) {
+        if (pthread_create(&readers[i], NULL, reader, (void *)(intptr_t)(i + 1)) != 0) {
             perror("Failed to create reader thread");
             exit(EXIT_FAILURE);
         }
@@ -93,7 +94,7 @@ int main() {
 
     // Create writer threads
     for (i = 0; i < NUM_WRITERS; i++) {
-        if (pthread_create(&writers[i], NULL, writer, (void *)(long)(i + 1)) != 0) {
+        if (pthread_create(&writers[i], NULL, writer, (void *)(intptr_t)(i + 1)) != 0) {
             perror("Failed to create writer thread");
             exit(EXIT_FAILURE);
         }
