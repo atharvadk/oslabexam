@@ -1,56 +1,58 @@
 #include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <string.h>
-#include <sys/types.h>
-#if defined(_WIN32) || defined(_WIN64)
-#include <windows.h>
-#else
-#include <sys/wait.h>
-#endif
+#include <unistd.h>     // fork, getpid, lseek, read, write, close
+#include <fcntl.h>      // open
+#include <string.h>     // strlen
+#include <sys/types.h>  // pid_t
+#include <sys/stat.h>   // file permission flags
+#include <sys/wait.h>   // wait
 
-int main() {
-
+int main(void) {
     int fd;
-    char buffer[50];
+    char buffer[64];
 
     // ------------------------------
     // FILE SYSTEM CALLS
     // ------------------------------
 
-    // Open a file (create if not exists)
-    fd = open("sample.txt", O_CREAT | O_RDWR, 0644);
+    // Open a file (create if not exists, read/write, truncate old contents)
+    fd = open("sample.txt", O_CREAT | O_RDWR | O_TRUNC, 0644);
     if (fd < 0) {
         perror("open");
         return 1;
     }
 
     // Write to the file
-    char msg[] = "Hello from system call demo!\n";
-    write(fd, msg, sizeof(msg));
+    const char msg[] = "Hello from system call demo!\n";
+    ssize_t written = write(fd, msg, strlen(msg));
+    if (written < 0) {
+        perror("write");
+        close(fd);
+        return 1;
+    }
 
     // Move file pointer to beginning
-    lseek(fd, 0, SEEK_SET);
+    if (lseek(fd, 0, SEEK_SET) == (off_t)-1) {
+        perror("lseek");
+        close(fd);
+        return 1;
+    }
 
-    // Read from file (check return and avoid buffer overflow)
-    ssize_t n = read(fd, buffer, sizeof(buffer));
+    // Read from file (limit size to buffer-1 for '\0')
+    ssize_t n = read(fd, buffer, sizeof(buffer) - 1);
     if (n < 0) {
         perror("read");
         close(fd);
         return 1;
     }
 
-    if (n >= (ssize_t)sizeof(buffer)) {
-        // ensure last byte is NUL if buffer filled completely
-        buffer[sizeof(buffer) - 1] = '\0';
-    } else {
-        buffer[n] = '\0';
-    }
-
+    buffer[n] = '\0';   // null-terminate the string
     printf("Data read from file: %s", buffer);
 
     // Close the file
     close(fd);
+
+    // Flush stdout before fork so output is not duplicated
+    fflush(stdout);
 
     // ------------------------------
     // PROCESS SYSTEM CALLS
@@ -65,24 +67,17 @@ int main() {
 
     if (pid == 0) {
         // Child process
-        printf("Child Process: PID = %d\n", getpid());
-    } 
-    else {
+        printf("Child Process: PID = %d\n", (int)getpid());
+    } else {
         // Parent process
-        // wait for child to finish (POSIX). On Windows, `wait`/`fork` are typically unavailable
-        // so we fall back to a short Sleep to allow the child to print (if running under a
-        // POSIX compatibility layer this block won't be used).
-    #if defined(_WIN32) || defined(_WIN64)
-        Sleep(100);
-        printf("Parent Process: PID = %d, Child PID = %d finished.\n", getpid(), pid);
-    #else
-        wait(NULL);
-        printf("Parent Process: PID = %d, Child PID = %d finished.\n", getpid(), pid);
-    #endif
+        wait(NULL);  // wait for child to finish
+        printf("Parent Process: PID = %d, Child PID = %d finished.\n",
+               (int)getpid(), (int)pid);
     }
 
     return 0;
 }
+
 
 /*
 Sample Output (no stdin; program demonstrates file and process system calls):
