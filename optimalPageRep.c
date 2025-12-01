@@ -92,3 +92,21 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input:
+
+Enter number of frames: 3
+Enter length of reference string: 12
+Enter the reference string (space-separated page numbers):
+7 0 1 2 0 3 0 4 2 3 0 3
+
+Sample Output:
+
+Total number of page faults (Optimal): 7
+
+Explanation:
+- Frames = 3, reference string length = 12.
+- Optimal replacement chooses the page whose next use is farthest (or not used again).
+- For the example reference string the optimal algorithm results in 7 page faults.
+*/

@@ -111,3 +111,43 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input:
+
+Enter number of processes: 5
+Enter number of resource types: 3
+
+Enter Allocation matrix (row-wise):
+Allocation for P0: 0 1 0
+Allocation for P1: 2 0 0
+Allocation for P2: 3 0 2
+Allocation for P3: 2 1 1
+Allocation for P4: 0 0 2
+
+Enter Max matrix (row-wise):
+Max for P0: 7 5 3
+Max for P1: 3 2 2
+Max for P2: 9 0 2
+Max for P3: 2 2 2
+Max for P4: 4 3 3
+
+Enter Available resources: 3 3 2
+
+Sample Output:
+
+Need matrix:
+P0: 7 4 3 
+P1: 1 2 2 
+P2: 6 0 0 
+P3: 0 1 1 
+P4: 4 3 1 
+
+System is in a SAFE state.
+Safe sequence is: P1 -> P3 -> P4 -> P0 -> P2
+
+Explanation:
+- The Need matrix is computed as Max - Allocation for each process and resource.
+- The safety algorithm finds a sequence of processes that can finish with available resources.
+- For the example, one safe sequence is P1, P3, P4, P0, P2.
+*/

@@ -87,3 +87,21 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input:
+
+Enter number of frames: 3
+Enter length of reference string: 12
+Enter the reference string (space-separated page numbers):
+7 0 1 2 0 3 0 4 2 3 0 3
+
+Sample Output:
+
+Total number of page faults (LRU): 8
+
+Explanation:
+- Frames = 3, reference string length = 12.
+- Using LRU replacement, the algorithm replaces the least-recently-used page on a fault.
+- For the example reference string the program reports 8 page faults.
+*/

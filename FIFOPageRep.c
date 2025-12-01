@@ -51,3 +51,20 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input:
+
+Enter number of frames: 3
+Enter length of reference string: 12
+Enter the reference string (space-separated page numbers):
+7 0 1 2 0 3 0 4 2 3 0 3
+
+Sample Output:
+
+Total number of page faults (FIFO): 10
+
+Explanation:
+- Frames = 3, reference string length = 12.
+- Using FIFO replacement the program replaces the oldest loaded page on each fault.
+*/

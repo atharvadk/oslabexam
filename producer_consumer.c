@@ -100,3 +100,46 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input/Output (runs with no stdin; program prints actions):
+
+When you run the program it will create producer and consumer threads.
+The producer produces NUM_ITEMS (10) items and the consumer consumes them.
+Buffer size is 5. Output is time-dependent but will follow this pattern:
+
+Example Output:
+Producer produced: 1 at index 0
+Consumer consumed: 1 from index 0
+Producer produced: 2 at index 1
+Producer produced: 3 at index 2
+Consumer consumed: 2 from index 1
+Producer produced: 4 at index 3
+Producer produced: 5 at index 4
+Consumer consumed: 3 from index 2
+Producer produced: 6 at index 0
+Producer produced: 7 at index 1
+Consumer consumed: 4 from index 3
+Producer produced: 8 at index 2
+Consumer consumed: 5 from index 4
+Producer produced: 9 at index 3
+Producer produced: 10 at index 4
+Consumer consumed: 6 from index 0
+Consumer consumed: 7 from index 1
+Consumer consumed: 8 from index 2
+Consumer consumed: 9 from index 3
+Consumer consumed: 10 from index 4
+
+Notes:
+- Exact interleaving may differ because of thread scheduling and the sleep durations.
+- To run on Windows with MinGW or MSYS2, compile with pthreads/posix semaphores support.
+    Example (MSYS2 MinGW64):
+
+    gcc -o producer_consumer producer_consumer.c -lpthread -lrt
+
+    Then run:
+    ./producer_consumer
+
+- The program does not take runtime stdin; modify `NUM_ITEMS` or `BUFFER_SIZE`
+    constants at the top to change behavior.
+*/

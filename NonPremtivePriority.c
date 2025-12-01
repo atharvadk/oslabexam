@@ -62,3 +62,32 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input:
+
+Enter number of processes: 4
+Enter Burst Time and Priority (lower value = higher priority):
+P1 BT: 6
+P1 Priority: 2
+P2 BT: 2
+P2 Priority: 1
+P3 BT: 8
+P3 Priority: 4
+P4 BT: 3
+P4 Priority: 3
+
+Sample Output:
+
+Process	Priority	BT	FT	TAT	WT
+P2	1		2	2	2	0
+P1	2		6	8	8	2
+P4	3		3	11	11	8
+P3	4		8	19	19	11
+
+Explanation:
+- Processes are scheduled in order of increasing priority (lower number = higher priority): P2, P1, P4, P3.
+- Finish Time (FT) is cumulative burst times in that order: 2, 2+6=8, 8+3=11, 11+8=19.
+- Turnaround Time (TAT) equals FT for arrival time = 0.
+- Waiting Time (WT) = TAT - BT.
+*/

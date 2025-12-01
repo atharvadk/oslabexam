@@ -54,3 +54,28 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input:
+
+Enter number of processes: 4
+Enter burst time for each process:
+P1: 6
+P2: 2
+P3: 8
+P4: 3
+
+Sample Output:
+
+Process	BT	FT	TAT	WT
+P2	2	2	2	0
+P4	3	5	5	2
+P1	6	11	11	5
+P3	8	19	19	11
+
+Explanation:
+- This SJF implementation assumes all arrival times = 0 and uses non-preemptive SJF.
+- Processes are sorted by burst time (ascending): P2(2), P4(3), P1(6), P3(8).
+- Finish Time (FT) is cumulative burst times: 2, 2+3=5, 5+6=11, 11+8=19.
+- Turnaround Time (TAT) = FT (since AT=0), Waiting Time (WT) = TAT - BT.
+*/

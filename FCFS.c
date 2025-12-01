@@ -37,3 +37,28 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input:
+
+Enter number of processes: 4
+Enter burst time for each process:
+P1: 5
+P2: 3
+P3: 8
+P4: 6
+
+Sample Output:
+
+Process	BT	FT	TAT	WT
+P1	5	5	5	0
+P2	3	8	8	5
+P3	8	16	16	8
+P4	6	22	22	14
+
+Explanation:
+- Arrival times are assumed 0 for all processes (FCFS with no explicit arrival times).
+- Finish Time (FT) is cumulative burst times: 5, 5+3=8, 8+8=16, 16+6=22.
+- Turnaround Time (TAT) = FT - AT (AT=0), so TAT = FT.
+- Waiting Time (WT) = TAT - BT.
+*/

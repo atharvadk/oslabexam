@@ -114,3 +114,33 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Output (program runs with no stdin; prints reader/writer actions):
+
+This program creates 5 readers and 2 writers. Output is interleaved and time-dependent.
+Example excerpt:
+Writer 1: updated shared_data to 1
+Reader 1: reading shared_data = 1
+Reader 2: reading shared_data = 1
+Reader 3: reading shared_data = 1
+Writer 2: updated shared_data to 2
+Reader 4: reading shared_data = 2
+Reader 5: reading shared_data = 2
+Writer 1: updated shared_data to 3
+Reader 1: reading shared_data = 3
+...
+
+Notes:
+- Exact ordering will vary due to thread scheduling and sleep durations.
+- Readers may read the same value concurrently; writers get exclusive access and increment `shared_data`.
+- To compile on Windows with POSIX threads (MSYS2/MinGW):
+
+    gcc -o reader_writer Reader_Writer.c -lpthread -lrt
+
+Then run:
+    ./reader_writer
+
+To modify the number of readers/writers or timings, change `NUM_READERS`, `NUM_WRITERS`,
+and the `usleep(...)` values inside the reader/writer functions.
+*/

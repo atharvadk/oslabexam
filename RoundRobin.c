@@ -62,3 +62,31 @@ int main() {
 
     return 0;
 }
+
+/*
+Sample Input:
+
+Enter number of processes: 4
+Enter burst time for each process:
+P1: 5
+P2: 3
+P3: 1
+P4: 2
+Enter Time Quantum: 2
+
+Sample Output:
+
+Process	BT	FT	TAT	WT
+P1	5	11	11	6
+P2	3	10	10	7
+P3	1	5	5	4
+P4	2	7	7	5
+
+Gantt (time slices example):
+P1(0-2) P2(2-4) P3(4-5) P4(5-7) P1(7-9) P2(9-10) P1(10-11)
+
+Explanation:
+- Arrival times are assumed 0 for all processes.
+- Time quantum is 2. The scheduler cycles through ready processes giving each up to 2 units.
+- Finish times (FT) are recorded when remaining time reaches 0; TAT = FT - AT (AT=0), WT = TAT - BT.
+*/
