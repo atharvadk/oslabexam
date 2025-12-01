@@ -1,3 +1,6 @@
+//Implement Bankers algorithm for deadlock avoidance and find out a safe sequence for processes.
+
+
 #include <stdio.h>
 
 int main() {
